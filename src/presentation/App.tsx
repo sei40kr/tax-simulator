@@ -7,9 +7,8 @@ import {
   Typography
 } from "@material-ui/core";
 import React from "react";
-import Form from "./components/form/Form";
-import Settings from "./components/setting/Settings";
-import CalculationResult from "./components/table/CalculationResult";
+import Form from "./components/calculationInput/Form";
+import CalculationResult from "./components/calculationResult/CalculationResult";
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <Form />
-              <Settings />
             </Grid>
             <Grid item xs={6}>
               <CalculationResult />

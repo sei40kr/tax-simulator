@@ -1,11 +1,9 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import calculationReducer from "./modules/calculation";
-import settingsReducer from "./modules/settings";
+import calculationInputReducer from "./modules/calculationInput";
 
 export const store = configureStore({
   reducer: {
-    calculation: calculationReducer,
-    settings: settingsReducer
+    calculationInput: calculationInputReducer
   }
 });
 

@@ -10,9 +10,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import {
   selectExpense,
-  selectGrossIncome,
   selectRevenue
-} from "../../../application/modules/calculation";
+} from "../../../application/modules/calculationInput";
+import {
+  selectConsumptionTax,
+  selectGrossIncome
+} from "../../../application/modules/calculationResult";
 import formatCurrency from "../../formatCurrency";
 
 const row = (label: string, value: string) => (
@@ -25,20 +28,19 @@ const row = (label: string, value: string) => (
 );
 
 const CalculationResult = () => {
-  const revenue = useSelector(selectRevenue)?.getValue();
-  const expense = useSelector(selectExpense)?.getValue();
-  const grossIncome = useSelector(selectGrossIncome)?.getValue();
+  const revenue = useSelector(selectRevenue);
+  const expense = useSelector(selectExpense);
+  const grossIncome = useSelector(selectGrossIncome);
+  const consumptionTax = useSelector(selectConsumptionTax);
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableBody>
-          {row("年間売上", formatCurrency(revenue))}
-          {row(
-            "年間経費",
-            formatCurrency(expense !== undefined ? expense * -1 : undefined)
-          )}
-          {row("額面年収", formatCurrency(grossIncome))}
+          {row("年間売上", formatCurrency(revenue.getValue()))}
+          {row("年間経費", formatCurrency(-expense.getValue()))}
+          {row("額面年収", formatCurrency(grossIncome.getValue()))}
+          {row("消費税", formatCurrency(-consumptionTax.getValue()))}
         </TableBody>
       </Table>
     </TableContainer>
