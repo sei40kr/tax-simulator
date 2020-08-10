@@ -7,6 +7,6 @@ const calculateConsumptionTax = (
   grossIncome: GrossIncome
 ) =>
   new ConsumptionTax(
-    grossIncome.getValue() * (1 - deemedPurchaseRate.getRate()) * 0.1
+    Math.floor(grossIncome.getValue() * (1 - deemedPurchaseRate.getRate()) * 0.1)
   );
 export default calculateConsumptionTax;
