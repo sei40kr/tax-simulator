@@ -1,12 +1,10 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from "@material-ui/core";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Typography from "@material-ui/core/Typography";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 import React from "react";
 import FilingMethod, {

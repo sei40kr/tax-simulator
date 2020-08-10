@@ -1,14 +1,12 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from "@material-ui/core";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Typography from "@material-ui/core/Typography";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 import React, { Fragment } from "react";
 import DeemedPurchaseRate, {
