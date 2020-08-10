@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build --experimental-scope-hoisting src/index.html"
   },
   "eslintConfig": {
     "extends": "react-app"
