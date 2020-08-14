@@ -1,52 +1,31 @@
 {
-  "name": "tax-simulator",
-  "version": "0.1.0",
-  "private": true,
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build",
+    "test": "jest",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@reduxjs/toolkit": "^1.4.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.9.1",
-    "@types/node": "^12.12.54",
-    "@types/react": "^16.9.44",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-redux": "^7.1.9",
     "moment": "^2.27.0",
     "moment-range": "^4.0.2",
     "moment-timezone": "^0.5.31",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-redux": "^7.2.1",
-    "typescript": "^3.8.3"
-  },
-  "scripts": {
-    "dev": "npm-run-all -p dev:watch dev:serve",
-    "dev:watch": "sane 'esbuild --bundle --outfile=public/app.js --sourcemap --define:process.env.NODE_ENV=\\\"development\\\" src/index.tsx' --glob=src/**/*",
-    "dev:serve": "serve -l 3000 public",
-    "build": "esbuild --bundle --outfile=public/app.js --minify --define:process.env.NODE_ENV=\\\"production\\\" src/index.tsx"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-redux": "^7.2.1"
   },
   "devDependencies": {
-    "esbuild": "^0.6.20",
-    "npm-run-all": "^4.1.5",
-    "sane": "^4.1.0",
-    "serve": "^11.3.2"
+    "@snowpack/app-scripts-react": "^1.8.4",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.3",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "jest": "^26.2.2",
+    "prettier": "^2.0.5",
+    "snowpack": "^2.7.7",
+    "typescript": "^3.9.7"
   }
 }

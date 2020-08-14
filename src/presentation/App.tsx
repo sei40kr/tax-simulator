@@ -4,11 +4,11 @@ import {
   Container,
   Grid,
   Toolbar,
-  Typography
-} from "@material-ui/core";
-import React from "react";
-import Form from "./components/calculationInput/Form";
-import CalculationResult from "./components/calculationResult/CalculationResult";
+  Typography,
+} from '@material-ui/core';
+import React from 'react';
+import Form from './components/calculationInput/Form';
+import CalculationResult from './components/calculationResult/CalculationResult';
 
 function App() {
   return (

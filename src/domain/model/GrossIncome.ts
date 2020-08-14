@@ -1,5 +1,5 @@
-import Expense from "./Expense";
-import Revenue from "./Revenue";
+import Expense from './Expense';
+import Revenue from './Revenue';
 
 class GrossIncome {
   constructor(private value: number) {}

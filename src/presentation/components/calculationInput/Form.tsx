@@ -1,49 +1,49 @@
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Paper from "@material-ui/core/Paper";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import React, { Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
-import { update } from "../../../application/modules/calculationInput";
-import DeemedPurchaseRate from "../../../domain/model/DeemedPurchaseRate";
-import FilingMethod from "../../../domain/model/FilingMethod";
-import ConsumptionTaxSettings from "./ConsumptionTaxSettings";
-import FilingMethodSetting from "./FilingMethodSetting";
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Paper from '@material-ui/core/Paper';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import React, { Fragment, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { update } from '../../../application/modules/calculationInput';
+import DeemedPurchaseRate from '../../../domain/model/DeemedPurchaseRate';
+import FilingMethod from '../../../domain/model/FilingMethod';
+import ConsumptionTaxSettings from './ConsumptionTaxSettings';
+import FilingMethodSetting from './FilingMethodSetting';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     settings: {
-      "& .MuiAccordionSummary-content p:first-child": {
+      '& .MuiAccordionSummary-content p:first-child': {
         fontSize: theme.typography.pxToRem(14),
-        flexBasis: "33.33%",
-        flexShrink: 0
+        flexBasis: '33.33%',
+        flexShrink: 0,
       },
-      "& .MuiAccordionSummary-content p:nth-child(2)": {
+      '& .MuiAccordionSummary-content p:nth-child(2)': {
         fontSize: theme.typography.pxToRem(14),
-        color: theme.palette.text.secondary
-      }
-    }
-  })
+        color: theme.palette.text.secondary,
+      },
+    },
+  }),
 );
 
-type ActiveAccordionId = "filing_method" | "consumption_tax_setting";
+type ActiveAccordionId = 'filing_method' | 'consumption_tax_setting';
 
 const Form = () => {
-  const [revenue, setRevenue] = useState("");
-  const [expense, setExpense] = useState("");
+  const [revenue, setRevenue] = useState('');
+  const [expense, setExpense] = useState('');
   const [filingMethodId, setFilingMethodId] = useState(
-    FilingMethod.WHITE.getId()
+    FilingMethod.WHITE.getId(),
   );
   const filingMethod = FilingMethod.fromId(filingMethodId);
   const [deemedPurchaseRateId, setDeemedPurchaseRateId] = useState(
-    DeemedPurchaseRate.RATE_90.getId()
+    DeemedPurchaseRate.RATE_90.getId(),
   );
   const deemedPurchaseRate = DeemedPurchaseRate.fromId(deemedPurchaseRateId);
   const [expandedAccordionId, expandAccordionById] = useState(
-    "filing_method" as ActiveAccordionId
+    'filing_method' as ActiveAccordionId,
   );
   const dispatch = useDispatch();
 
@@ -59,8 +59,8 @@ const Form = () => {
           revenue: parseInt(revenue),
           expense: parseInt(expense),
           filingMethodId,
-          deemedPurchaseRateId
-        })
+          deemedPurchaseRateId,
+        }),
       );
     }
   };
@@ -77,7 +77,7 @@ const Form = () => {
                 id="revenue"
                 label="年間売上"
                 margin="normal"
-                onChange={event => setRevenue(event.target.value)}
+                onChange={(event) => setRevenue(event.target.value)}
                 required
                 size="small"
                 type="number"
@@ -86,7 +86,7 @@ const Form = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">¥</InputAdornment>
-                  )
+                  ),
                 }}
               />
             </Grid>
@@ -96,7 +96,7 @@ const Form = () => {
                 id="expense"
                 label="年間経費"
                 margin="normal"
-                onChange={event => setExpense(event.target.value)}
+                onChange={(event) => setExpense(event.target.value)}
                 required
                 size="small"
                 type="number"
@@ -105,7 +105,7 @@ const Form = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">¥</InputAdornment>
-                  )
+                  ),
                 }}
               />
             </Grid>
@@ -124,14 +124,14 @@ const Form = () => {
       </Paper>
       <Box className={classes.settings}>
         <FilingMethodSetting
-          expanded={expandedAccordionId == "filing_method"}
-          onExpand={() => expandAccordionById("filing_method")}
+          expanded={expandedAccordionId == 'filing_method'}
+          onExpand={() => expandAccordionById('filing_method')}
           filingMethod={filingMethod}
           setFilingMethodId={setFilingMethodId}
         />
         <ConsumptionTaxSettings
-          expanded={expandedAccordionId == "consumption_tax_setting"}
-          onExpand={() => expandAccordionById("consumption_tax_setting")}
+          expanded={expandedAccordionId == 'consumption_tax_setting'}
+          onExpand={() => expandAccordionById('consumption_tax_setting')}
           deemedPurchaseRate={deemedPurchaseRate}
           setDeemedPurchaseRateId={setDeemedPurchaseRateId}
         />
