@@ -111,7 +111,11 @@ export function PensionAccumulationResultCard({
                 max={50}
                 step={1}
                 value={`${years}`}
-                onValueChange={(d) => onYearsChange(d.valueAsNumber)}
+                onValueChange={(d) => {
+                  if (Number.isFinite(d.valueAsNumber)) {
+                    onYearsChange(d.valueAsNumber);
+                  }
+                }}
                 width="full"
               >
                 <InputGroup endElement={<Text color="fg.muted">年</Text>}>
