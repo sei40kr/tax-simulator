@@ -8,6 +8,7 @@ import {
   GridItem,
   VStack,
 } from "@chakra-ui/react";
+import { GrayExpensesSection } from "@/components/gray-expenses-section";
 import { CountInput } from "@/components/ui/count-input";
 import { MoneyInput } from "@/components/ui/money-input";
 import type { TaxSettings } from "@/lib/calculations/calculator";
@@ -42,6 +43,8 @@ export function BasicInfoCard({ settings, onChange }: Props) {
               max={settings.income}
             />
           </Field.Root>
+
+          <GrayExpensesSection settings={settings} onChange={onChange} />
 
           <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)" }} gap={4}>
             <GridItem>

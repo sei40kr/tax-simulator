@@ -95,6 +95,7 @@ export const INCOME_TAX_BRACKETS: readonly IncomeTaxBracket[] = [
 export const DEFAULT_TAX_SETTINGS: TaxSettings = {
   income: 5_000_000,
   expenses: 1_500_000,
+  grayExpenses: 0,
   dependents: 0,
   age: 35,
   hasSpouse: false,

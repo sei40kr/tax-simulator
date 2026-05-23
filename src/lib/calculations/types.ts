@@ -47,6 +47,7 @@ export interface ConsumptionTaxSettings {
 export interface TaxSettings {
   income: number;
   expenses: number;
+  grayExpenses: number;
   dependents: number;
   age: number;
   hasSpouse: boolean;

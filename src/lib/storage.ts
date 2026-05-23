@@ -1,8 +1,11 @@
 import {
+  DEFAULT_TAX_SETTINGS,
+  type TaxSettings,
+} from "@/lib/calculations/calculator";
+import {
   DEFAULT_PENSION_RETURN_RATES,
   type PensionSchemeKey,
 } from "@/lib/calculations/pension-accumulation";
-import type { TaxSettings } from "@/lib/calculations/calculator";
 
 export const SIMULATION_STORAGE_KEY = "tax-simulator:inputs:v1";
 
@@ -20,7 +23,7 @@ export function loadSimulationInputs(): SimulationInputs | null {
     const parsed = JSON.parse(raw) as Partial<SimulationInputs>;
     if (!parsed.settings || typeof parsed.settings !== "object") return null;
     return {
-      settings: parsed.settings as TaxSettings,
+      settings: { ...DEFAULT_TAX_SETTINGS, ...parsed.settings } as TaxSettings,
       pensionYears:
         typeof parsed.pensionYears === "number" ? parsed.pensionYears : 30,
       returnRates: {

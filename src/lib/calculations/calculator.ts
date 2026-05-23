@@ -36,13 +36,16 @@ export type {
 
 export function calculateTaxes(settings: TaxSettings): TaxResults {
   // 入力は税込（税込経理）。納付消費税は租税公課として事業所得から控除する。
+  // グレー経費（私的支出を事業経費として計上した額）は経費に合算して影響を可視化する。
+  const grayExpenses = Math.max(0, settings.grayExpenses);
+  const effectiveExpenses = settings.expenses + grayExpenses;
   const consumptionTax = calcConsumptionTax(
     settings.income,
-    settings.expenses,
+    effectiveExpenses,
     settings.consumptionTaxSettings,
   );
 
-  const grossIncome = Math.max(0, settings.income - settings.expenses);
+  const grossIncome = Math.max(0, settings.income - effectiveExpenses);
   const netIncome = Math.max(0, grossIncome - consumptionTax);
 
   const blueReturnDeduction = calcBlueReturnDeduction(
@@ -121,8 +124,9 @@ export function calculateTaxes(settings: TaxSettings): TaxResults {
     businessTax +
     consumptionTax;
 
-  // 消費税は netIncome の計算時に租税公課として控除済みのため takeHome から重複控除しない
-  const takeHome = netIncome - (totalTax - consumptionTax);
+  // 消費税は netIncome の計算時に租税公課として控除済みのため takeHome から重複控除しない。
+  // グレー経費分は経費として差し引かれているが、実態は個人消費として手元に残る価値のため戻し入れる。
+  const takeHome = netIncome - (totalTax - consumptionTax) + grayExpenses;
   const taxRate = grossIncome > 0 ? totalTax / grossIncome : 0;
 
   return {
