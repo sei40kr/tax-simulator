@@ -17,6 +17,8 @@ import { BusinessTaxSection } from "@/components/business-tax-section";
 import { ConsumptionTaxSection } from "@/components/consumption-tax-section";
 import { HealthInsuranceSection } from "@/components/health-insurance-section";
 import { IncomeTaxSection } from "@/components/income-tax-section";
+import { PensionAccumulationResultCard } from "@/components/pension-accumulation-result-card";
+import { PensionReturnRateSection } from "@/components/pension-return-rate-section";
 import { ResidentTaxSection } from "@/components/resident-tax-section";
 import { ResultsCard } from "@/components/results-card";
 import { SocialInsuranceCard } from "@/components/social-insurance-card";
@@ -26,10 +28,76 @@ import {
   getDefaultTaxSettings,
   type TaxSettings,
 } from "@/lib/calculations/calculator";
+import { ADDITIONAL_PENSION_MONTHLY } from "@/lib/calculations/constants";
+import {
+  calculatePensionAccumulation,
+  DEFAULT_PENSION_RETURN_RATES,
+  PENSION_SCHEME_META,
+  type PensionScheme,
+  type PensionSchemeKey,
+} from "@/lib/calculations/pension-accumulation";
 
 export default function Home() {
   const [settings, setSettings] = useState<TaxSettings>(getDefaultTaxSettings);
+  const [pensionYears, setPensionYears] = useState(30);
+  const [returnRates, setReturnRates] = useState<
+    Record<PensionSchemeKey, number>
+  >(DEFAULT_PENSION_RETURN_RATES);
+
   const results = useMemo(() => calculateTaxes(settings), [settings]);
+
+  const pensionSchemes = useMemo<PensionScheme[]>(() => {
+    const list: PensionScheme[] = [];
+    if (settings.ideco && settings.idecoMonthly > 0) {
+      list.push({
+        key: "ideco",
+        label: "iDeCo",
+        monthlyAmount: settings.idecoMonthly,
+        annualReturnRate: returnRates.ideco,
+      });
+    }
+    if (
+      settings.nationalPensionFund &&
+      settings.nationalPensionFundMonthly > 0
+    ) {
+      list.push({
+        key: "nationalPensionFund",
+        label: "国民年金基金",
+        monthlyAmount: settings.nationalPensionFundMonthly,
+        annualReturnRate: returnRates.nationalPensionFund,
+      });
+    }
+    if (settings.additionalPension) {
+      list.push({
+        key: "additionalPension",
+        label: "付加年金",
+        monthlyAmount: ADDITIONAL_PENSION_MONTHLY,
+        annualReturnRate: returnRates.additionalPension,
+      });
+    }
+    if (
+      settings.smallBusinessMutualAid &&
+      settings.smallBusinessMutualAidMonthly > 0
+    ) {
+      list.push({
+        key: "smallBusinessMutualAid",
+        label: "小規模企業共済",
+        monthlyAmount: settings.smallBusinessMutualAidMonthly,
+        annualReturnRate: returnRates.smallBusinessMutualAid,
+      });
+    }
+    return list;
+  }, [settings, returnRates]);
+
+  const activePensionMeta = useMemo(() => {
+    const active = new Set(pensionSchemes.map((s) => s.key));
+    return PENSION_SCHEME_META.filter((m) => active.has(m.key));
+  }, [pensionSchemes]);
+
+  const pensionPoints = useMemo(
+    () => calculatePensionAccumulation(pensionSchemes, pensionYears),
+    [pensionSchemes, pensionYears],
+  );
 
   const patch = (p: Partial<TaxSettings>) =>
     setSettings((s) => ({ ...s, ...p }));
@@ -122,20 +190,31 @@ export default function Home() {
                       onChange={patchSlice("healthInsuranceSettings")}
                       age={settings.age}
                     />
+                    <PensionReturnRateSection
+                      returnRates={returnRates}
+                      onChange={setReturnRates}
+                      activeMeta={activePensionMeta}
+                    />
                   </Accordion.Root>
                 </Card.Body>
               </Card.Root>
             </VStack>
 
             <Box>
-              <Box position={{ base: "static", lg: "sticky" }} top={20}>
+              <VStack align="stretch" gap={6}>
                 <ResultsCard
                   income={settings.income}
                   expenses={settings.expenses}
                   age={settings.age}
                   results={results}
                 />
-              </Box>
+                <PensionAccumulationResultCard
+                  points={pensionPoints}
+                  years={pensionYears}
+                  onYearsChange={setPensionYears}
+                  hasActiveScheme={pensionSchemes.length > 0}
+                />
+              </VStack>
             </Box>
           </Grid>
         </VStack>
