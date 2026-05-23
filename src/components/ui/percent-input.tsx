@@ -24,7 +24,10 @@ export function PercentInput({
       max={max}
       step={step}
       value={`${value}`}
-      onValueChange={(details) => onChange(details.valueAsNumber)}
+      onValueChange={(details) => {
+        if (Number.isNaN(details.valueAsNumber)) return;
+        onChange(details.valueAsNumber);
+      }}
       width="full"
     >
       <InputGroup endElement={<LuPercent />}>
