@@ -4,14 +4,16 @@ import {
   Accordion,
   Alert,
   Box,
+  Button,
   Card,
   Container,
+  Flex,
   Grid,
   Heading,
   List,
   VStack,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { BasicInfoCard } from "@/components/basic-info-card";
 import { BusinessTaxSection } from "@/components/business-tax-section";
 import { ConsumptionTaxSection } from "@/components/consumption-tax-section";
@@ -23,6 +25,7 @@ import { ResidentTaxSection } from "@/components/resident-tax-section";
 import { ResultsCard } from "@/components/results-card";
 import { SocialInsuranceCard } from "@/components/social-insurance-card";
 import { TaxReturnCard } from "@/components/tax-return-card";
+import { toaster } from "@/components/ui/toaster";
 import {
   calculateTaxes,
   getDefaultTaxSettings,
@@ -36,6 +39,7 @@ import {
   type PensionScheme,
   type PensionSchemeKey,
 } from "@/lib/calculations/pension-accumulation";
+import { loadSimulationInputs, saveSimulationInputs } from "@/lib/storage";
 
 export default function Home() {
   const [settings, setSettings] = useState<TaxSettings>(getDefaultTaxSettings);
@@ -43,6 +47,49 @@ export default function Home() {
   const [returnRates, setReturnRates] = useState<
     Record<PensionSchemeKey, number>
   >(DEFAULT_PENSION_RETURN_RATES);
+
+  const applyStored = useCallback(
+    (source: "auto" | "manual") => {
+      const stored = loadSimulationInputs();
+      if (stored) {
+        setSettings(stored.settings);
+        setPensionYears(stored.pensionYears);
+        setReturnRates(stored.returnRates);
+        toaster.create({
+          type: "success",
+          title:
+            source === "auto"
+              ? "前回の入力を復元しました"
+              : "保存した内容を復元しました",
+        });
+        return true;
+      }
+      if (source === "manual") {
+        toaster.create({
+          type: "info",
+          title: "保存された入力はありません",
+        });
+      }
+      return false;
+    },
+    [],
+  );
+
+  useEffect(() => {
+    applyStored("auto");
+  }, [applyStored]);
+
+  const handleSave = useCallback(() => {
+    saveSimulationInputs({ settings, pensionYears, returnRates });
+    toaster.create({
+      type: "success",
+      title: "入力を保存しました",
+    });
+  }, [settings, pensionYears, returnRates]);
+
+  const handleLoad = useCallback(() => {
+    applyStored("manual");
+  }, [applyStored]);
 
   const results = useMemo(() => calculateTaxes(settings), [settings]);
 
@@ -157,6 +204,21 @@ export default function Home() {
               </Alert.Description>
             </Alert.Content>
           </Alert.Root>
+
+          <Flex gap={2} justify="flex-end">
+            <Button
+              size="sm"
+              variant="outline"
+              colorPalette="blue"
+              bg="white"
+              onClick={handleLoad}
+            >
+              保存した内容を復元
+            </Button>
+            <Button size="sm" colorPalette="blue" onClick={handleSave}>
+              保存
+            </Button>
+          </Flex>
 
           <Grid templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }} gap={6}>
             <VStack gap={6} align="stretch">
