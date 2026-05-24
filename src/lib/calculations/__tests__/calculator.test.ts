@@ -192,7 +192,7 @@ describe('calculateTaxes', () => {
       ...defaultSettings,
       businessTaxSettings: {
         ...defaultSettings.businessTaxSettings,
-        isSubjectToTax: false,
+        bracket: "exempt",
       },
     });
 
@@ -203,7 +203,7 @@ describe('calculateTaxes', () => {
       expenses: 1500000, // 純所得250万円（課税最低限290万円以下）
       businessTaxSettings: {
         ...defaultSettings.businessTaxSettings,
-        isSubjectToTax: true,
+        bracket: "rate5",
       },
     });
 
@@ -214,7 +214,7 @@ describe('calculateTaxes', () => {
       expenses: 1500000, // 純所得450万円（課税最低限290万円超）
       businessTaxSettings: {
         ...defaultSettings.businessTaxSettings,
-        isSubjectToTax: true,
+        bracket: "rate5",
       },
     });
 

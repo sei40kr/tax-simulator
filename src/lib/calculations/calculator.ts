@@ -23,6 +23,7 @@ import { calcResidentTax } from "./resident-tax";
 import type { TaxResults, TaxSettings } from "./types";
 
 export type {
+  BusinessTaxBracket,
   BusinessTaxSettings,
   ConsumptionTaxSettings,
   HealthInsuranceSettings,

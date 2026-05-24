@@ -1,0 +1,130 @@
+import type { BusinessTaxBracket } from "@/lib/calculations/calculator";
+
+export const BRACKET_LABELS: Record<BusinessTaxBracket, string> = {
+  exempt: "法定業種外（非課税）",
+  rate3: "3%（第3種事業の一部）",
+  rate4: "4%（第2種事業）",
+  rate5: "5%（第1種・第3種事業）",
+  custom: "その他（税率を手動で設定）",
+};
+
+export const BRACKET_ORDER: readonly BusinessTaxBracket[] = [
+  "exempt",
+  "rate5",
+  "rate4",
+  "rate3",
+  "custom",
+];
+
+export interface IndustryGroup {
+  title: string;
+  bracket: Exclude<BusinessTaxBracket, "custom">;
+  industries: readonly string[];
+}
+
+export const INDUSTRY_GROUPS: readonly IndustryGroup[] = [
+  {
+    title: "第1種事業（5%）",
+    bracket: "rate5",
+    industries: [
+      "物品販売業",
+      "保険業",
+      "金銭貸付業",
+      "物品貸付業",
+      "不動産貸付業",
+      "製造業",
+      "電気供給業",
+      "土石採取業",
+      "電気通信事業",
+      "運送業",
+      "運送取扱業",
+      "船舶定係場業",
+      "倉庫業",
+      "駐車場業",
+      "請負業",
+      "印刷業",
+      "出版業",
+      "写真業",
+      "席貸業",
+      "旅館業",
+      "料理店業",
+      "飲食店業",
+      "周旋業",
+      "代理業",
+      "仲立業",
+      "問屋業",
+      "両替業",
+      "公衆浴場業（むし風呂等以外）",
+      "演劇興行業",
+      "遊技場業",
+      "遊覧所業",
+      "商品取引業",
+      "不動産売買業",
+      "広告業",
+      "興信所業",
+      "案内業",
+      "冠婚葬祭業",
+    ],
+  },
+  {
+    title: "第2種事業（4%）",
+    bracket: "rate4",
+    industries: ["畜産業", "水産業", "薪炭製造業"],
+  },
+  {
+    title: "第3種事業（5%）",
+    bracket: "rate5",
+    industries: [
+      "医業",
+      "歯科医業",
+      "薬剤師業",
+      "獣医業",
+      "弁護士業",
+      "司法書士業",
+      "行政書士業",
+      "公証人業",
+      "弁理士業",
+      "税理士業",
+      "公認会計士業",
+      "計理士業",
+      "社会保険労務士業",
+      "コンサルタント業",
+      "設計監督者業",
+      "不動産鑑定業",
+      "デザイン業",
+      "諸芸師匠業",
+      "理容業",
+      "美容業",
+      "クリーニング業",
+      "公衆浴場業（むし風呂等）",
+      "歯科衛生士業",
+      "歯科技工士業",
+      "測量士業",
+      "土地家屋調査士業",
+      "海事代理士業",
+      "印刷製版業",
+    ],
+  },
+  {
+    title: "第3種事業（3%）",
+    bracket: "rate3",
+    industries: [
+      "あんま・マッサージ・指圧・はり・きゅう・柔道整復等",
+      "装蹄師業",
+    ],
+  },
+  {
+    title: "法定業種外（非課税）",
+    bracket: "exempt",
+    industries: [
+      "文筆業",
+      "画家・彫刻家など芸術家",
+      "作曲家",
+      "通訳・翻訳業",
+      "スポーツ選手",
+      "漫画家",
+      "農業",
+      "林業",
+    ],
+  },
+];

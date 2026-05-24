@@ -15,6 +15,33 @@ export interface SimulationInputs {
   returnRates: Record<PensionSchemeKey, number>;
 }
 
+function mergeSettings(parsed: Partial<TaxSettings>): TaxSettings {
+  const d = DEFAULT_TAX_SETTINGS;
+  const h = parsed.healthInsuranceSettings;
+  return {
+    ...d,
+    ...parsed,
+    incomeTaxSettings: { ...d.incomeTaxSettings, ...parsed.incomeTaxSettings },
+    residentTaxSettings: {
+      ...d.residentTaxSettings,
+      ...parsed.residentTaxSettings,
+    },
+    healthInsuranceSettings: {
+      medical: { ...d.healthInsuranceSettings.medical, ...h?.medical },
+      support: { ...d.healthInsuranceSettings.support, ...h?.support },
+      care: { ...d.healthInsuranceSettings.care, ...h?.care },
+    },
+    businessTaxSettings: {
+      ...d.businessTaxSettings,
+      ...parsed.businessTaxSettings,
+    },
+    consumptionTaxSettings: {
+      ...d.consumptionTaxSettings,
+      ...parsed.consumptionTaxSettings,
+    },
+  };
+}
+
 export function loadSimulationInputs(): SimulationInputs | null {
   if (typeof window === "undefined") return null;
   const raw = window.localStorage.getItem(SIMULATION_STORAGE_KEY);
@@ -23,7 +50,7 @@ export function loadSimulationInputs(): SimulationInputs | null {
     const parsed = JSON.parse(raw) as Partial<SimulationInputs>;
     if (!parsed.settings || typeof parsed.settings !== "object") return null;
     return {
-      settings: { ...DEFAULT_TAX_SETTINGS, ...parsed.settings } as TaxSettings,
+      settings: mergeSettings(parsed.settings),
       pensionYears:
         typeof parsed.pensionYears === "number" ? parsed.pensionYears : 30,
       returnRates: {

@@ -31,9 +31,18 @@ export interface HealthInsuranceSettings {
   care: InsuranceComponent;
 }
 
+// 個人事業税は法定業種70業種を3区分に分類し、税率3% / 4% / 5%（または非課税）。
+// 業種そのものは計算に不要なので、税率ブラケットのみ保持する。
+export type BusinessTaxBracket =
+  | "exempt"
+  | "rate3"
+  | "rate4"
+  | "rate5"
+  | "custom";
+
 export interface BusinessTaxSettings {
-  isSubjectToTax: boolean;
-  rate: number;
+  bracket: BusinessTaxBracket;
+  customRate: number;
   minimumTaxableIncome: number;
 }
 

@@ -155,8 +155,8 @@ export const DEFAULT_TAX_SETTINGS: TaxSettings = {
   },
 
   businessTaxSettings: {
-    isSubjectToTax: false,
-    rate: 5,
+    bracket: "exempt",
+    customRate: 5,
     minimumTaxableIncome: 2_900_000,
   },
 
