@@ -136,7 +136,10 @@ export function calculateTaxes(settings: TaxSettings): TaxResults {
 
   // 消費税は netIncome の計算時に租税公課として控除済みのため takeHome から重複控除しない。
   // グレー経費分は経費として差し引かれているが、実態は個人消費として手元に残る価値のため戻し入れる。
-  const takeHome = netIncome - (totalTax - consumptionTax) + grayExpenses;
+  const takeHome = Math.max(
+    0,
+    netIncome - (totalTax - consumptionTax) + grayExpenses,
+  );
   const taxRate = grossIncome > 0 ? totalTax / grossIncome : 0;
 
   return {
