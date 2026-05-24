@@ -46,7 +46,7 @@ export function GrayExpensesSection({ settings, onChange }: Props) {
         <VStack align="stretch" gap={3} pt={3}>
           <Field.Root>
             <Field.Label>
-              私的支出を事業経費として計上する額（税込）
+              業務関連性が曖昧な支出を経費計上する額（税込）
             </Field.Label>
             <MoneyInput
               value={settings.grayExpenses}
@@ -59,7 +59,7 @@ export function GrayExpensesSection({ settings, onChange }: Props) {
             <Alert.Content>
               <Alert.Title>注意</Alert.Title>
               <Alert.Description>
-                この項目は、世の中で実際に行われている「私的支出の経費計上」がどの程度の税負担差を生むのかを、知的好奇心を満たす範囲で把握するためのものです。ユーザー自身に同じ申告を推奨するものではなく、当然ながらそうした行為は脱税にあたります。
+                この項目は、業務との関連性が明確でない、いわゆるグレーゾーンの支出を経費に含めた場合に、どの程度の税負担差が生まれるのかを把握するためのものです。明らかに私的な支出の経費計上は脱税にあたるため、本ツールはそうした行為を推奨するものではありません。
               </Alert.Description>
             </Alert.Content>
           </Alert.Root>
