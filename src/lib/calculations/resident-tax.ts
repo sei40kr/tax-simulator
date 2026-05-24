@@ -1,6 +1,6 @@
 import type { ResidentTaxSettings } from "./types";
 
-export function calcResidentTax(
+export function calcResidentIncomeRateTax(
   taxableIncome: number,
   settings: ResidentTaxSettings,
 ): number {
@@ -9,10 +9,16 @@ export function calcResidentTax(
     Math.floor((taxableIncome * (settings.cityIncomeRate / 100)) / 100) * 100;
   const prefIncomeTax =
     Math.floor((taxableIncome * (settings.prefIncomeRate / 100)) / 100) * 100;
+  return cityIncomeTax + prefIncomeTax;
+}
+
+export function calcResidentTax(
+  taxableIncome: number,
+  settings: ResidentTaxSettings,
+): number {
   return (
-    cityIncomeTax +
+    calcResidentIncomeRateTax(taxableIncome, settings) +
     settings.cityPerCapita +
-    prefIncomeTax +
     settings.prefPerCapita +
     settings.forestTax
   );

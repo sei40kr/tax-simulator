@@ -18,6 +18,7 @@ import { BasicInfoCard } from "@/components/basic-info-card";
 import { BusinessTaxSection } from "@/components/business-tax-section";
 import { ConsumptionTaxSection } from "@/components/consumption-tax-section";
 import { HealthInsuranceSection } from "@/components/health-insurance-section";
+import { HometownTaxDonationCard } from "@/components/hometown-tax-donation-card";
 import { IncomeTaxSection } from "@/components/income-tax-section";
 import { PensionAccumulationResultCard } from "@/components/pension-accumulation-result-card";
 import { PensionReturnRateSection } from "@/components/pension-return-rate-section";
@@ -269,6 +270,10 @@ export default function Home() {
                   expenses={settings.expenses}
                   age={settings.age}
                   results={results}
+                />
+                <HometownTaxDonationCard
+                  limit={results.hometownTaxDonationLimit}
+                  residentIncomeRateTax={results.residentIncomeRateTax}
                 />
                 <PensionAccumulationResultCard
                   points={pensionPoints}

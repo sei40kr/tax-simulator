@@ -87,6 +87,7 @@ export interface TaxResults {
   taxableIncome: number;
   incomeTax: number;
   residentTax: number;
+  residentIncomeRateTax: number;
   healthInsurance: number;
   careInsurance: number;
   pension: number;
@@ -100,4 +101,5 @@ export interface TaxResults {
   totalDeduction: number;
   takeHome: number;
   taxRate: number;
+  hometownTaxDonationLimit: number;
 }

@@ -18,8 +18,9 @@ import {
   sumResidentTaxDeductions,
 } from "./deductions";
 import { calcHealthInsurance } from "./health-insurance";
+import { calcHometownTaxDonationLimit } from "./hometown-tax-donation";
 import { calcIncomeTax } from "./income-tax";
-import { calcResidentTax } from "./resident-tax";
+import { calcResidentIncomeRateTax, calcResidentTax } from "./resident-tax";
 import type { TaxResults, TaxSettings } from "./types";
 
 export type {
@@ -106,11 +107,19 @@ export function calculateTaxes(settings: TaxSettings): TaxResults {
     1000;
 
   const incomeTax = calcIncomeTax(taxableIncome);
+  const residentIncomeRateTax = calcResidentIncomeRateTax(
+    residentTaxableIncome,
+    settings.residentTaxSettings,
+  );
   const residentTax = calcResidentTax(
     residentTaxableIncome,
     settings.residentTaxSettings,
   );
   const businessTax = calcBusinessTax(netIncome, settings.businessTaxSettings);
+  const hometownTaxDonationLimit = calcHometownTaxDonationLimit(
+    residentIncomeRateTax,
+    taxableIncome,
+  );
 
   const totalTax =
     incomeTax +
@@ -135,6 +144,7 @@ export function calculateTaxes(settings: TaxSettings): TaxResults {
     taxableIncome,
     incomeTax,
     residentTax,
+    residentIncomeRateTax,
     healthInsurance,
     careInsurance,
     pension,
@@ -148,6 +158,7 @@ export function calculateTaxes(settings: TaxSettings): TaxResults {
     totalDeduction,
     takeHome,
     taxRate,
+    hometownTaxDonationLimit,
   };
 }
 
