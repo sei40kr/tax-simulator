@@ -1,3 +1,9 @@
+post_create:
+  - bun install
+
+pre_merge:
+  - bun test
+
 files:
   copy:
     # Bun-installed dependencies. Copy so each worktree can add/remove packages
